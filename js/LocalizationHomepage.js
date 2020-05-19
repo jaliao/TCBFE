@@ -1,12 +1,3 @@
-// const cookie = document.cookie
-// let haslang = cookie.indexOf('.AspNetCore.Culture') > 0;
-// if(!haslang){
-// 	let userlang = navigator.language
-// 	if( userlang == 'zh-CN' || userlang == 'en-US' ){
-// 		window.location.pathname = `/RedirectToLocalizedContent?targetCulture=${userlang}&contentItemUrl=%2F`;
-// 	}
-// }
-
 if (location.pathname == "/") {
     var CookieCulture = getCookie('.AspNetCore.Culture');
 
@@ -25,9 +16,8 @@ if (location.pathname == "/") {
     }
 }
 
-console.log("location",location.pathname,location.pathname == "/")
-console.log("CookieCulture=",CookieCulture)
-
+// console.log("location",location.pathname,location.pathname == "/")
+// console.log("CookieCulture=",CookieCulture)
 
 function getCookie(cname) {
     var name = cname + "=";

@@ -1,4 +1,4 @@
-/*app.js version 2020-5-19 update*/ 
+/*js version 2020-5-13 update*/ 
 
 function setCookie(cname,cvalue,exdays){
     var d = new Date();
@@ -170,6 +170,9 @@ function getDevice(){
 function initPlugins(){
 
 	lazyload()
+	$('[data-fancybox]').fancybox({
+		protect: true
+	});
 
 }
 
@@ -191,6 +194,109 @@ function dateFormalizing(string,format,locale){
 	return time
 }
 
+
+
+//custom
+function initSlick (slick){
+
+	//console.log(slick)
+
+	var autoplay = slick.attr("data-autoplay");
+	var speed = slick.attr("data-autoplay-speed");
+	var dots = slick.attr("data-dots");
+	var centerPadding = slick.attr("data-center-padding");
+	var isCentered = slick.hasClass("bv-centered-carousel") == true ? true : false;
+
+	autoplay = ( autoplay == "true" ) ? true : false;
+	speed = ( speed != undefined && speed.length !== 0 ) ? parseInt(speed) : 5000 ;
+	centerPadding = ( centerPadding != undefined && centerPadding.length !== 0 ) ? centerPadding : "60px";
+	dots = ( dots == "true" )? true : false
+	//console.log(dots,speed)
+
+	var options = {
+		dots:dots,
+		arrows:true,
+		autoplay:autoplay,
+		autoplaySpeed:speed,
+		draggable:false,
+		pauseOnHover:false,
+		centerMode:isCentered,
+		centerPadding:"60px",
+		responsive: [
+	    	{
+		      breakpoint: 576,
+		      settings: {
+		        centerPadding:"30px",
+		        arrows:false
+		      }
+	  		}
+	    ]
+	}
+
+	var hasVideo = slick.find('.video').length != 0 ? true : false;
+
+
+	if(hasVideo){
+		// When the slide is changing
+		function playPauseVideo(slick, control){
+
+
+		  	var currentSlide, startTime, player, video;
+
+			currentSlide = slick.find(".slick-current.slide");
+
+			isVideo = currentSlide.hasClass('video')? true : false
+
+			//console.log("currentSlide:",currentSlide)
+
+		  	if (isVideo) {
+		  		slick.slick('slickPause')
+			    video = currentSlide.children("video").get(0);
+			    if (video != null) {
+			      if (control === "play"){
+			        video.play();
+			      } else {
+			        video.pause();
+			      }
+			    }
+			}else{
+				slick.slick('slickPlay')
+			}
+
+		}
+
+		slick.on("init", function(slick){
+
+			slick = $(slick.currentTarget);
+
+			setTimeout(function(){
+
+			  playPauseVideo(slick,"play");
+
+			  //console.log('oninit')
+			}, 1000);
+
+		})
+
+		slick.on("beforeChange", function(event, slick) {
+
+			slick = $(slick.$slider);
+			playPauseVideo(slick,"pause");
+
+		});
+
+		slick.on("afterChange", function(event, slick) {
+			slick = $(slick.$slider);
+			
+			playPauseVideo(slick,"play");
+
+		});
+	}
+
+
+	slick.slick(options)
+
+}
 function navbarUI(){
 
 	//set up item
@@ -261,7 +367,100 @@ function navbarUI(){
 
 
 }
+function initGallery(gallery){
 
+	//console.log(gallery)
+	let imgs = gallery.find('img')
+	//console.log(imgs)
+	const _galleryContainer = '.bv-article-gallery-container';
+	const _galleryNavConst = '<div class="bv-gallery-nav"/>';
+	const _galleryNav = '.bv-gallery-nav';
+
+	gallery.slick({
+		//asNavFor:'.bv-gallery-nav',
+		fade:true,
+		dots:false,
+		arrows:false
+	})
+
+	if( imgs.length >1 ){
+		
+		gallery.closest(_galleryContainer).append(_galleryNavConst)
+		const slickNav = gallery.closest(_galleryContainer).find(_galleryNav)
+		imgs.clone().appendTo(slickNav)
+		const navimgs = slickNav.find('img')
+		navimgs.wrap('<div><a class="img-wrap" href="javascript:;"></a></div>')
+
+		let _largeArrows = imgs.length > 5 ? true : false
+
+		if(_largeArrows){
+			slickNav.addClass('centered')
+		}
+
+		slickNav.on('init', function(event, slick){
+			console.log("init")
+		})
+
+		slickNav.slick({
+		  	slidesToShow: 6,
+		  	slidesToScroll: 6,
+		  	dots:false,
+		  	arrows:_largeArrows,
+		  	//asNavFor:'.gallery-slick',
+		  	focusOnSelect: false,
+		  	infinite:false,
+			responsive: [
+		    	{
+			      breakpoint: 576,
+			      settings: {
+			      	arrows:false,
+			        slidesToScroll: 6
+			      }
+		  		}
+		    ]
+		})
+
+		let leftarrow = slickNav.find('.slick-prev')
+		let rightarrow = slickNav.find('.slick-next')
+		let slickNavSlide = slickNav.find('.slick-slide a')
+
+
+
+		slickNav.on('afterChange', function(event, slick, currentSlide) { 
+
+			console.log(slick,currentSlide)
+			
+			if( currentSlide == 6){
+				leftarrow.css('opacity',1)
+				rightarrow.css('opacity',0.1)
+			}else if(currentSlide == 0){
+				leftarrow.css('opacity',0.1)
+				rightarrow.css('opacity',1)
+			}else{
+				leftarrow.css('opacity',1)
+				rightarrow.css('opacity',1)
+			}
+		})
+
+		leftarrow.on('click',function(){
+
+
+		})
+
+		rightarrow.on('click',function(){
+			
+		})
+
+		slickNavSlide.on('click',function(){
+			let index = $(this).parent('.slick-slide').attr('data-slick-index')
+			console.log(index)
+			gallery.slick('slickGoTo', index);
+		})
+
+
+	}
+
+}
 function animation(object){
 
 	let ismobile;
@@ -286,10 +485,21 @@ function animation(object){
 
 function initApp(device){
 
+	//console.log("device =", device)
+
+	const slick = $('.slick');
+	const gallery = $('.bv-gallery')
 	const animate_card = $('.bv-cards-animation')
 	const video = $('video')
 
 	navbarUI()
+
+	if(slick.length>0){
+		initSlick(slick)
+	}
+	if(gallery.length>0){
+		initGallery(gallery)
+	}
 
 	if(animate_card.length>0 ){
 		animation(animate_card)

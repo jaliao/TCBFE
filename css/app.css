@@ -1,4 +1,4 @@
-/*css version 2020-5-12 update*/
+/*css version 2020-5-18 1.1 update*/
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600|Lato|Noto+Sans+SC:400,700|Noto+Serif+SC:400,600,700|Padauk:400,700|Spectral:400,400i,700&display=swap");
 html, body {
   overflow-x: hidden; }
@@ -54,7 +54,11 @@ h1, h2, h3 {
   height: 56px;
   background-size: 100% 100%;
   text-indent: -9999px;
-  background-image: url("/TCBWeb/img/logo-white.png"); }
+  background-image: url("/TCBWeb/img/logo-white.svg"); }
+  @media screen and (min-width: 992px) {
+    .bv-logo {
+      width: 216px;
+      height: 84px; } }
 
 .bv-section {
   padding: 3rem 0; }
@@ -173,15 +177,6 @@ blockquote {
       font-size: 1.25rem;
       line-height: 40px; } }
 
-.navbar-right-link {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center; }
-  .navbar-right-link > li {
-    padding: 0 0.5rem; }
-  .navbar-right-link .navbar-toggler {
-    margin-bottom: 4px; }
-
 .color-dust {
   color: #BB9B5C; }
 
@@ -195,12 +190,6 @@ blockquote {
   -webkit-transition: none;
   transition: none;
   display: none; }
-
-.navbar-right-link {
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row; }
 
 .bv-404-template {
   width: 100vw;
@@ -487,7 +476,8 @@ blockquote {
   z-index: 99;
   width: 100%;
   font-family: "Padauk", "Noto Sans SC", serif;
-  padding: 1rem 1.5rem; }
+  padding: 1rem 1.5rem;
+  background-color: transparent; }
   .bv-navbar.navbar-lock-top {
     position: fixed !important;
     background-color: rgba(0, 0, 0, 0.75);
@@ -497,6 +487,22 @@ blockquote {
       width: 64px;
       height: 21px;
       background-image: url("/TCBWeb/img/logo-white-small.png"); }
+  .bv-navbar .navbar-right-link {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+    .bv-navbar .navbar-right-link > li {
+      padding: 0 0.5rem; }
+      .bv-navbar .navbar-right-link > li:last-child {
+        padding-left: 0;
+        padding-right: 0; }
+    .bv-navbar .navbar-right-link .bv-hamburger {
+      margin-bottom: 2px;
+      margin-right: -12px; }
   .bv-navbar .bv-logo-container {
     top: 0;
     left: 0;
@@ -602,7 +608,7 @@ blockquote {
         position: absolute;
         left: 50%;
         margin-right: auto;
-        margin-left: -72px; }
+        margin-left: -108px; }
       .bv-navbar .bv-opentime {
         font-size: 12px;
         display: -webkit-box;
@@ -705,7 +711,7 @@ blockquote {
       content: attr(data-link-text);
       width: 100%;
       height: 100%;
-      font-size: 1.125rem;
+      font-size: 1.75rem;
       position: absolute;
       background-color: rgba(0, 0, 0, 0.33);
       top: 0; }
@@ -793,6 +799,7 @@ blockquote {
             transform: translateY(30); } }
 
 .bv-carousel {
+  background-color: #333;
   position: relative;
   height: calc( 100vh - 75px);
   max-height: calc( 100vh - 75px);
@@ -1023,7 +1030,7 @@ blockquote {
          object-fit: cover; }
 
 .bv-gallery {
-  max-height: 540px;
+  max-height: 660px;
   overflow: hidden; }
 
 .bv-full-image {
@@ -2006,12 +2013,13 @@ select:not([multiple]) {
 .bv-hamburger {
   z-index: 1000;
   width: 16px;
-  height: 11px;
+  width: 40px;
+  height: 33px;
   position: relative;
   cursor: pointer;
   background-color: transparent;
   border: none;
-  padding: 0;
+  padding: 10px 12px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2161,6 +2169,8 @@ select:not([multiple]) {
       color: #a08143; }
   .bv-article .bv-dashed-link {
     margin-bottom: 2rem; }
+  .bv-article .bv-gallery {
+    margin-bottom: .5rem; }
   @media screen and (min-width: 768px) {
     .bv-article .bv-gallery {
       margin-bottom: 1rem; } }
@@ -2394,7 +2404,6 @@ select:not([multiple]) {
         -webkit-box-flex: 60%;
             -ms-flex: 60% 0 0px;
                 flex: 60% 0 0;
-        font-size: 20px;
         padding-left: 1rem;
         max-width: none;
         padding-left: 1rem;
